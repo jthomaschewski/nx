@@ -11,18 +11,11 @@ import { findNodes } from '@nrwl/workspace/src/utilities/typescript/find-nodes';
 
 export async function migrateToWebPack5(tree: Tree) {
   allReactProjectsWithStorybookConfiguration(tree).forEach((project) => {
-    let storybookConfigFile = `${project.storybookConfigPath}/main.js`;
-    if (!tree.exists(storybookConfigFile)) {
-      // try to see whether there's a main.ts file
-      storybookConfigFile = `${project.storybookConfigPath}/main.ts`;
-    }
-
-    if (!tree.exists(storybookConfigFile)) {
-      // ok...give up
-      return;
-    }
-
-    editProjectMainJs(tree, storybookConfigFile, project.projectName);
+    editProjectMainJs(
+      tree,
+      `${project.storybookConfigPath}/main.js`,
+      project.projectName
+    );
   });
   await formatFiles(tree);
 }
